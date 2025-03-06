@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Field Reports";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+@if (ViewBag.AvslRapFältrapport != null && ((System.Data.DataTable)ViewBag.AvslRapFältrapport).Rows.Count > 0)
+{
+    <table class="my-table">
+        <tr>
+            @foreach (var dataColumn in ViewBag.AvslRapFältrapport.Columns)
+            {
+                <th>@dataColumn.ColumnName</th>
+            }
+        </tr>
+        @foreach (var row in ViewBag.AvslRapFältrapport.Rows)
+        {
+            <tr>
+                @for (int i = 0; i < ViewBag.AvslRapFältrapport.Columns.Count; ++i)
+                {
+                    <td>@row[i]</td>
+                }
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No search results found</p>
+}
+

@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "Report Table";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+@if (ViewBag.RepportResults != null && ((System.Data.DataTable)ViewBag.RepportResults).Rows.Count > 0)
+{
+    <table class="my-table">
+        <tr>
+            @foreach (var dataColumn in ViewBag.RepportResults.Columns)
+            {
+                <th>@dataColumn.ColumnName</th>
+            }
+        </tr>
+        @foreach (var row in ViewBag.RepportResults.Rows)
+        {
+            <tr>
+                @for (int i = 0; i < ViewBag.RepportResults.Columns.Count; ++i)
+                {
+                    <td>@row[i]</td>
+                }
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No search results found</p>
+}
+
+
+<br />
+<h3>Find incident name after the title:</h3>
+
+
+@if (ViewBag.RepportResults != null && ((System.Data.DataTable)ViewBag.RepportResults).Rows.Count > 0)
+{
+    <form method="post" action="@Url.Action("ChooseTitel", "Home")">
+
+        <select name="Choose">
+
+            @foreach (var row in ViewBag.RepportResults.Rows)
+            {
+
+                <option value="@row["titel"]">@row["titel"]</option>
+
+
+            }
+        </select>
+
+        <input type="submit" value="Show results" />
+    </form>
+}
+else
+{
+    <p>No search results found</p>
+}
+
+
+@if (ViewBag.TitelSearch != null && ((System.Data.DataTable)ViewBag.TitelSearch).Rows.Count > 0)
+{
+    <table class="my-table">
+        <tr>
+            @foreach (var dataColumn in ViewBag.TitelSearch.Columns)
+            {
+                <th>@dataColumn.ColumnName</th>
+            }
+        </tr>
+        @foreach (var row in ViewBag.TitelSearch.Rows)
+        {
+            <tr>
+                @for (int i = 0; i < ViewBag.TitelSearch.Columns.Count; ++i)
+                {
+                    <td>@row[i]</td>
+                }
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No search results found</p>
+}
+
+
+
+<br />
+<h3>Move Report to Field Reports: </h3>
+
+<form method="post" action="@Url.Action("MoveReport", "Home")">
+
+    <label>
+        Date: <input type="text" name="datumIn" value="" placeholder="date" />
+    </label>
+    <label>
+        Title: <input type="text" name="titelIn" value="" placeholder="title" />
+    </label>
+    <label>
+        Type: <input type="text" name="typIncIn" value="" placeholder="type" />
+    </label>
+
+    <input type="submit" value="Move report" />
+</form>
+

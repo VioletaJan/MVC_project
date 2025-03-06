@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewData["Title"] = "Created by Violeta";
+
+}
+
+@if (ViewBag.username == null)
+{
+    <div>You are not logged in!</div>
+}
+else
+{
+    <h1>Welcome @ViewBag.username !</h1>
+    <div>
+        <div>Current Session Id: <span>@ViewBag.SessionId</span></div>
+    </div>
+    <form method="post" action="@Url.Action("Logout", "Home")">
+        <input type="submit" value="Logout" />
+    </form>
+}
+<hr />
+
+
+<h1> PUCKO </h1>
+<br />
+
+<h3>Add a new Agent:</h3>
+<form method="post" action="@Url.Action("AddAgent", "Home")">
+    <label>
+        Name: <input type="text" name="namn" value="" placeholder="Agents Name" />
+    </label><br />
+    <label>
+        Nr: <input type="text" name="nr" value="" placeholder="Agents Nr" />
+    </label><br />
+    <label>
+        Specialite: <input type="text" name="specialite" value="" placeholder="Specialite" />
+    </label><br />
+    <label>
+        Incident name: <input type="text" name="namnInc" value="" placeholder="Incidents name" />
+    </label><br />
+    <label>
+        Incident nr: <input type="text" name="nrInc" value="" placeholder="Incidents nr" />
+    </label><br />
+    <input type="submit" value="Add agent" />
+</form>
+<br />
+<br />
+
+
+<h3>Desinformation Spridare Agents</h3>
+
+@if (ViewBag.DesinfoSpridare != null && ((System.Data.DataTable)ViewBag.DesinfoSpridare).Rows.Count > 0)
+{
+    <table class="my-table">
+        <tr>
+            @foreach (var dataColumn in ViewBag.DesinfoSpridare.Columns)
+            {
+                <th>@dataColumn.ColumnName</th>
+            }
+            <th>Action</th>
+        </tr>
+        @foreach (var row in ViewBag.DesinfoSpridare.Rows)
+        {
+            <tr>
+                @for (int i = 0; i < ViewBag.DesinfoSpridare.Columns.Count; ++i)
+                {
+                    <td>@row[i]</td>
+                }
+                <td>@Html.ActionLink("Delete", "DeleteAgent", "Home", new { namn = row["namn"], nr = row["nr"] }, new { title = "Click to delete agent " + row["namn"] })</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No search results found.</p>
+}
+
+
+<br />
+<br />
+<h3>Search Agent by name:</h3>
+<form method="post" action="@Url.Action("SearchCustomer", "Home")">
+    <label>
+        Name:
+        <input type="text" name="name" value="" placeholder="Agents Name" />
+    </label>
+    <input type="submit" value="Search" />
+</form>
+
+
+
+
